@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: orders
+
+  batch:
+    job:
+      enabled: false
+    initialize-schema: always
+
+  jpa:
+    generate-ddl: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/orders?escapeSyntaxCallMode=callIfNoReturn
+    username: admin
+    password: 123
