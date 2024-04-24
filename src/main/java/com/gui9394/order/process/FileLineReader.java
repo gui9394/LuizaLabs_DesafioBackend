@@ -1,4 +1,4 @@
-package com.gui9394.order.file_process;
+package com.gui9394.order.process;
 
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;

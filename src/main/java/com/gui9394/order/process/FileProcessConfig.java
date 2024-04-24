@@ -1,4 +1,4 @@
-package com.gui9394.order.file_process;
+package com.gui9394.order.process;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
