@@ -67,6 +67,7 @@ Para executar a aplicação e necessário ter o Docker configurado.
 Abra um terminal e navegue ao até o diretório onde baixou o projeto e execute o comando a seguir.
 
 ```shell
+./gradlew build
 docker compose up -d
 ```
 
