@@ -26,12 +26,12 @@ Exemplo do arquivo:
 Ao processar os registros pode acontecer os seguintes cenários:
 
 - Sucesso
-  - ORDER_SAVED - Um novo produto e pedido foi processado.
-  - USER_UPDATED - O produto e pedido já foi processado, apenas informações do usuário foi atualizada.
+  - **ORDER_SAVED** - Um novo produto e pedido foi processado.
+  - **USER_UPDATED** - O produto e pedido já foi processado, apenas informações do usuário foi atualizada.
 - Erro
-  - ORDER_PRODUCT_DUPLICATED - No mesmo pedido o mesmo produto estava com outro valor.
-  - ORDER_USER_DIFFERENT - O pedido já tinha sido processado, mas para outro usuário.
-  - INVALID_FORMAT - Registro com formato inválido.
+  - **ORDER_PRODUCT_DUPLICATED** - No mesmo pedido o mesmo produto estava com outro valor.
+  - **ORDER_USER_DIFFERENT** - O pedido já tinha sido processado, mas para outro usuário.
+  - **INVALID_FORMAT** - Registro com formato inválido.
 
 Em caso de erro ao processar alguma linha o processamento vai prosseguir e registrar no log as informações do erro.
 
@@ -59,6 +59,18 @@ Caso queria consultar mais de um pedido na mesma consulta pode repetir o parâme
 Você pode passar a data de inicio do intervalo no parâmetro **start_date** e a data final do intervalo no parâmetro **end_date** que deseja consultar.
 
 O intervalo máximo pode ser configurado pela variável ORDER_CONSULT_FIND_BY_DATE_INTERVAL_MAX em dias.
+
+## Execução
+
+Para executar a aplicação e necessário ter o Docker configurado.
+
+Abra um terminal e navegue ao até o diretório onde baixou o projeto e execute o comando a seguir.
+
+```shell
+docker compose up -d
+```
+
+A API vai rodar na porta 8080 você pode acessar o [Swagger](http://localhost:8080/swagger-ui/index.html).
 
 ## Paulo Silva
 

@@ -1,6 +1,7 @@
 package com.gui9394.order.find;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -42,7 +43,8 @@ public class OrderFindController {
     )
     @ApiResponse(
             responseCode = "500",
-            description = "Erro ao executar consulta."
+            description = "Erro ao executar consulta.",
+            content = @Content
     )
     @GetMapping(path = "/orders")
     public Collection<User> find(

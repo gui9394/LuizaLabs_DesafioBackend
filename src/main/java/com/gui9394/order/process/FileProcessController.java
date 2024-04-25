@@ -1,6 +1,7 @@
 package com.gui9394.order.process;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -36,11 +37,12 @@ public class FileProcessController {
                     Ao processar os registros pode acontecer os seguintes cenários:
                     
                     - Sucesso
-                      - ORDER_SAVED - Um novo produto e pedido foi processado.
-                      - USER_UPDATED - O produto e pedido já foi processado, apenas informações do usuário foi atualizada.
+                      - **ORDER_SAVED** - Um novo produto e pedido foi processado.
+                      - **USER_UPDATED** - O produto e pedido já foi processado, apenas informações do usuário foi atualizada.
                     - Erro
-                      - ORDER_PRODUCT_DUPLICATED - No mesmo pedido o mesmo produto estava com outro valor.
-                      - ORDER_USER_DIFFERENT - O pedido já tinha sido processado, mas para outro usuário.
+                      - **ORDER_PRODUCT_DUPLICATED** - No mesmo pedido o mesmo produto estava com outro valor.
+                      - **ORDER_USER_DIFFERENT** - O pedido já tinha sido processado, mas para outro usuário.
+                      - **INVALID_FORMAT** - Registro com formato inválido.
                     
                     Em caso de erro ao processar alguma linha o processamento vai prosseguir e registrar no log as informações do erro.
                     
@@ -59,7 +61,8 @@ public class FileProcessController {
     )
     @ApiResponse(
             responseCode = "500",
-            description = "Erro desconhecido ao executar o processamento."
+            description = "Erro desconhecido ao executar o processamento.",
+            content = @Content
     )
     @PostMapping(
             path = "/orders/process",

@@ -24,9 +24,9 @@ spring:
       ddl-auto: none
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/orders?escapeSyntaxCallMode=callIfNoReturn
-    username: admin
-    password: 123
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost:5432}/${POSTGRES_DB:rinha}?escapeSyntaxCallMode=callIfNoReturn
+    username: ${POSTGRES_USER:admin}
+    password: ${POSTGRES_PASSWORD:123}
 
 order:
   consult:
