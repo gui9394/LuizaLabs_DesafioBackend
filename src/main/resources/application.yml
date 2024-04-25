@@ -1,16 +1,36 @@
+logging:
+  pattern:
+    console: "%d{ISO8601} type=%highlight(%level) thread=%magenta(%thread) traceId=%magenta(%mdc{traceId}) spanId=%magenta(%mdc{spanId}) class=%cyan(%class{0}) method=%green(%method) line=%yellow(%line) %m%n%xThrowable"
+
+  level:
+    org.springframework.batch: error
+
+server:
+  error:
+    include-message: always
+
 spring:
   application:
-    name: orders
+    name: order
 
   batch:
     job:
       enabled: false
-    initialize-schema: always
+    initialize-schema: never
 
   jpa:
-    generate-ddl: true
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
 
   datasource:
     url: jdbc:postgresql://localhost:5432/orders?escapeSyntaxCallMode=callIfNoReturn
     username: admin
     password: 123
+
+order:
+  consult:
+    find-by-date-interval-max: 15
+
+  process:
+    chunk-size: 10000

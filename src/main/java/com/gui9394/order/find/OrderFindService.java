@@ -1,6 +1,6 @@
 package com.gui9394.order.find;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Service;
@@ -13,10 +13,18 @@ import java.util.Objects;
 import java.util.Set;
 
 @Service
-@RequiredArgsConstructor
 public class OrderFindService {
 
+    private final Long findByDateIntervalMax;
     private final OrderFindRepository orderFindRepository;
+
+    public OrderFindService(
+            @Value("${order.consult.find-by-date-interval-max}") Long findByDateIntervalMax,
+            OrderFindRepository orderFindRepository
+    ) {
+        this.findByDateIntervalMax = findByDateIntervalMax;
+        this.orderFindRepository = orderFindRepository;
+    }
 
     public Collection<User> findBy(Set<Long> ids, LocalDate startDate, LocalDate endDate) {
         validateParams(ids, startDate, endDate);
@@ -28,12 +36,12 @@ public class OrderFindService {
         return buildResult(rowSet);
     }
 
-    private static void validateParams(Set<Long> ids, LocalDate startDate, LocalDate endDate) {
+    private void validateParams(Set<Long> ids, LocalDate startDate, LocalDate endDate) {
         if (Objects.nonNull(ids) && !ids.isEmpty()) {
             if (Objects.nonNull(startDate) || Objects.nonNull(endDate)) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST,
-                        "Apenas é permitido pesquisar por 'id' ou 'start_date' e 'end_date'"
+                        "Apenas é permitido pesquisar por 'id' ou 'start_date' e 'end_date'."
                 );
             }
         }
@@ -41,20 +49,20 @@ public class OrderFindService {
             if (Objects.isNull(startDate) || Objects.isNull(endDate)) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST,
-                        "'start_date' deve ser igual ou anterior 'end_date'"
+                        "'start_date' deve ser igual ou anterior 'end_date'."
                 );
             }
 
-            if (endDate.isAfter(startDate.plusMonths(1))) {
+            if (endDate.isAfter(startDate.plusDays(findByDateIntervalMax))) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST,
-                        "O período entre 'start_date' e 'end_date' deve ser no máximo 1 mês"
+                        "O intervalo entre 'start_date' e 'end_date' deve ser no máximo " + findByDateIntervalMax + " dias."
                 );
             }
         }
     }
 
-    private static Collection<User> buildResult(SqlRowSet rowSet) {
+    private Collection<User> buildResult(SqlRowSet rowSet) {
         var usersById = new HashMap<Long, User>();
 
         while (rowSet.next()) {
