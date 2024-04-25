@@ -79,38 +79,37 @@ CREATE SEQUENCE BATCH_JOB_SEQ MAXVALUE 9223372036854775807 NO CYCLE;
 
 -- Order API
 
-CREATE TABLE "user" (
-	id int8 NOT NULL,
-	"name" varchar(45) NOT NULL,
+CREATE TABLE users (
+	id BIGINT NOT NULL,
+	name VARCHAR(45) NOT NULL,
 	CONSTRAINT user_pk PRIMARY KEY (id)
 );
 
-CREATE TABLE "order" (
-	id int8 NOT NULL,
-	"date" timestamp NOT NULL,
-	user_id int8 NOT NULL,
+CREATE TABLE orders (
+	id BIGINT NOT NULL,
+	date TIMESTAMP NOT NULL,
+	user_id BIGINT NOT NULL,
 	total numeric(10, 2) NOT NULL,
 	CONSTRAINT order_pk PRIMARY KEY (id),
-	CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES public."user"(id)
+	CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE TABLE "order_product" (
-	order_id int8 NOT NULL,
-	product_id int8 NOT NULL,
-	product_value numeric(10, 2) NOT NULL,
-	value numeric(38, 2) NULL,
+CREATE TABLE orders_products (
+	order_id BIGINT NOT NULL,
+	product_id BIGINT NOT NULL,
+	product_value NUMERIC(10, 2) NOT NULL,
 	CONSTRAINT order_product_pk PRIMARY KEY (order_id, product_id),
-	CONSTRAINT order_fk FOREIGN KEY (order_id) REFERENCES public."order"(id)
+	CONSTRAINT order_fk FOREIGN KEY (order_id) REFERENCES orders(id)
 );
 
 CREATE OR REPLACE PROCEDURE process_file_line(
-	IN p_user_id "user".id%type,
-	IN p_user_name "user"."name"%type,
-	IN p_order_id "order".id%type,
-	IN p_order_date "order"."date"%type,
-	IN p_product_id "order_product".product_id%type,
-	IN p_product_value "order_product".product_value%type,
-	INOUT r_result varchar(45)
+	IN p_user_id BIGINT,
+	IN p_user_name VARCHAR(45),
+	IN p_order_id BIGINT,
+	IN p_order_date TIMESTAMP,
+	IN p_product_id BIGINT,
+	IN p_product_value NUMERIC(10, 2),
+	INOUT r_result VARCHAR(45)
 )
 LANGUAGE plpgsql
 AS $$
@@ -121,7 +120,7 @@ BEGIN
         ELSE 'ORDER_PRODUCT_SAVED_BEFORE'
     END
     INTO r_result
-    FROM "order_product" op
+    FROM orders_products op
     WHERE op.order_id = p_order_id
     AND op.product_id = p_product_id;
 
@@ -135,14 +134,14 @@ BEGIN
         ELSE r_result
     END
     INTO r_result
-    FROM "order" o
+    FROM orders o
     WHERE o.id = p_order_id;
 
     IF r_result = 'ORDER_USER_DIFFERENT' THEN
         RETURN;
     END IF;
 
-    MERGE INTO "user" u
+    MERGE INTO users u
     USING (
         SELECT
             p_user_id AS id,
@@ -160,7 +159,7 @@ BEGIN
         RETURN;
     END IF;
 
-    MERGE INTO "order" o
+    MERGE INTO orders o
     USING (
         SELECT
             p_order_id AS id,
@@ -178,7 +177,7 @@ BEGIN
         INSERT (id, date, user_id, total)
         VALUES (ot.id, ot.date, ot.user_id, ot.total);
 
-    INSERT INTO "order_product"(order_id, product_id, product_value)
+    INSERT INTO orders_products(order_id, product_id, product_value)
     VALUES (p_order_id, p_product_id, p_product_value);
 
     r_result := 'ORDER_SAVED';

@@ -46,7 +46,7 @@ public class OrderFindService {
             }
         }
         else {
-            if (Objects.isNull(startDate) || Objects.isNull(endDate)) {
+            if (Objects.isNull(startDate) || Objects.isNull(endDate) || endDate.isBefore(startDate)) {
                 throw new ResponseStatusException(
                         HttpStatus.BAD_REQUEST,
                         "'start_date' deve ser igual ou anterior 'end_date'."

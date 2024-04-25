@@ -23,9 +23,9 @@ public class OrderFindRepository {
                 o.total AS order_total,
                 op.product_id AS product_id,
                 op.product_value AS product_value
-            FROM "order" o
-            LEFT JOIN "user" u ON u.id = o.user_id
-            LEFT JOIN "order_product" op ON op.order_id = o.id
+            FROM orders o
+            LEFT JOIN users u ON u.id = o.user_id
+            LEFT JOIN orders_products op ON op.order_id = o.id
             WHERE o.id IN (:orderIds)
             """;
 
@@ -38,9 +38,9 @@ public class OrderFindRepository {
                 o.total AS order_total,
                 op.product_id AS product_id,
                 op.product_value AS product_value
-            FROM "order" o
-            LEFT JOIN "user" u ON u.id = o.user_id
-            LEFT JOIN "order_product" op ON op.order_id = o.id
+            FROM orders o
+            LEFT JOIN users u ON u.id = o.user_id
+            LEFT JOIN orders_products op ON op.order_id = o.id
             WHERE o.date BETWEEN :startDate AND :endDate
             """;
 

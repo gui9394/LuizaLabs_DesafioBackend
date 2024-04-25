@@ -18,13 +18,8 @@ spring:
       enabled: false
     initialize-schema: never
 
-  jpa:
-    generate-ddl: false
-    hibernate:
-      ddl-auto: none
-
   datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST:localhost:5432}/${POSTGRES_DB:rinha}?escapeSyntaxCallMode=callIfNoReturn
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost:5432}/${POSTGRES_DB:orders}?escapeSyntaxCallMode=callIfNoReturn
     username: ${POSTGRES_USER:admin}
     password: ${POSTGRES_PASSWORD:123}
 
