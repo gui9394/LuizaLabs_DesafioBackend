@@ -3,21 +3,18 @@ package com.gui9394.order.process;
 import io.micrometer.tracing.Tracer;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-
-@Slf4j
-@Component
+@Service
 @RequiredArgsConstructor
 public class FileProcessService {
 

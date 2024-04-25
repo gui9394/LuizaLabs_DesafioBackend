@@ -46,34 +46,34 @@ class FileProcessTests extends TestBase {
                 .andExpect(jsonPath("$.duration").value(notNullValue()));
 
         var countOrdersProducts = jdbcClient.sql("""
-                SELECT COUNT(*)
-                FROM orders_products
-                WHERE (order_id = 1822 AND product_id = 1 AND product_value = 617.09)
-                OR (order_id = 702 AND product_id = 2 AND product_value = 1419.69)
-                OR (order_id = 702 AND product_id = 3 AND product_value = 1419.69)
-                OR (order_id = 1136 AND product_id = 4 AND product_value = 496.90)
-                """)
+                        SELECT COUNT(*)
+                        FROM orders_products
+                        WHERE (order_id = 1822 AND product_id = 1 AND product_value = 617.09)
+                        OR (order_id = 702 AND product_id = 2 AND product_value = 1419.69)
+                        OR (order_id = 702 AND product_id = 3 AND product_value = 1419.69)
+                        OR (order_id = 1136 AND product_id = 4 AND product_value = 496.90)
+                        """)
                 .query()
                 .singleValue();
         assertEquals(4L, countOrdersProducts);
 
         var countOrders = jdbcClient.sql("""
-                SELECT COUNT(*)
-                FROM orders
-                WHERE (user_id = 198 AND id = 1822 AND date = '2021-10-09 00:00:00.000' AND total = 617.09)
-                OR (user_id = 198 AND id = 1136 AND date = '2021-10-09 00:00:00.000' AND total = 496.90)
-                OR (user_id = 75 AND id = 702 AND date = '2021-10-09 00:00:00.000' AND total = 2839.38)
-                """)
+                        SELECT COUNT(*)
+                        FROM orders
+                        WHERE (user_id = 198 AND id = 1822 AND date = '2021-10-09 00:00:00.000' AND total = 617.09)
+                        OR (user_id = 198 AND id = 1136 AND date = '2021-10-09 00:00:00.000' AND total = 496.90)
+                        OR (user_id = 75 AND id = 702 AND date = '2021-10-09 00:00:00.000' AND total = 2839.38)
+                        """)
                 .query()
                 .singleValue();
         assertEquals(3L, countOrders);
 
         var countUsers = jdbcClient.sql("""
-                SELECT COUNT(*)
-                FROM users
-                WHERE (id = 198 AND name = 'Roosevelt')
-                OR (id = 75 AND name = 'Sha Olson')
-                """)
+                        SELECT COUNT(*)
+                        FROM users
+                        WHERE (id = 198 AND name = 'Roosevelt')
+                        OR (id = 75 AND name = 'Sha Olson')
+                        """)
                 .query()
                 .singleValue();
         assertEquals(2L, countUsers);

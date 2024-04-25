@@ -2,7 +2,9 @@ package com.gui9394.order.find;
 
 import com.gui9394.order.TestBase;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
@@ -13,6 +15,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class OrderFindTests extends TestBase {
+
+    @Autowired
+    public MockMvc mockMvc;
 
     @Value("${order.consult.find-by-date-interval-max}")
     Long findByDateIntervalMax;
@@ -57,7 +62,9 @@ class OrderFindTests extends TestBase {
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].total").value("100.10"))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].date").value("2021-09-28"))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].products.size()").value(1))
-                .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].products[?(@.product_id == 3000)].value").value("100.10"));
+                .andExpect(jsonPath(
+                        "$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].products[?(@.product_id == 3000)].value").value(
+                        "100.10"));
     }
 
     @Test
@@ -73,12 +80,18 @@ class OrderFindTests extends TestBase {
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].total").value("100.10"))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].date").value("2021-09-28"))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].products.size()").value(1))
-                .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].products[?(@.product_id == 3000)].value").value("100.10"))
+                .andExpect(jsonPath(
+                        "$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].products[?(@.product_id == 3000)].value").value(
+                        "100.10"))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2001)].total").value("250.50"))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2001)].date").value("2021-09-29"))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2001)].products.size()").value(2))
-                .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2001)].products[?(@.product_id == 3000)].value").value("100.10"))
-                .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2001)].products[?(@.product_id == 3001)].value").value("150.40"));
+                .andExpect(jsonPath(
+                        "$[?(@.user_id == 1001)].orders[?(@.order_id == 2001)].products[?(@.product_id == 3000)].value").value(
+                        "100.10"))
+                .andExpect(jsonPath(
+                        "$[?(@.user_id == 1001)].orders[?(@.order_id == 2001)].products[?(@.product_id == 3001)].value").value(
+                        "150.40"));
     }
 
     @Test
@@ -94,15 +107,23 @@ class OrderFindTests extends TestBase {
                 .andExpect(jsonPath("$[?(@.user_id == 1000)].orders[?(@.order_id == 2002)].total").value("550.60"))
                 .andExpect(jsonPath("$[?(@.user_id == 1000)].orders[?(@.order_id == 2002)].date").value("2021-09-23"))
                 .andExpect(jsonPath("$[?(@.user_id == 1000)].orders[?(@.order_id == 2002)].products.size()").value(3))
-                .andExpect(jsonPath("$[?(@.user_id == 1000)].orders[?(@.order_id == 2002)].products[?(@.product_id == 3000)].value").value("100.10"))
-                .andExpect(jsonPath("$[?(@.user_id == 1000)].orders[?(@.order_id == 2002)].products[?(@.product_id == 3001)].value").value("150.40"))
-                .andExpect(jsonPath("$[?(@.user_id == 1000)].orders[?(@.order_id == 2002)].products[?(@.product_id == 3003)].value").value("300.10"))
+                .andExpect(jsonPath(
+                        "$[?(@.user_id == 1000)].orders[?(@.order_id == 2002)].products[?(@.product_id == 3000)].value").value(
+                        "100.10"))
+                .andExpect(jsonPath(
+                        "$[?(@.user_id == 1000)].orders[?(@.order_id == 2002)].products[?(@.product_id == 3001)].value").value(
+                        "150.40"))
+                .andExpect(jsonPath(
+                        "$[?(@.user_id == 1000)].orders[?(@.order_id == 2002)].products[?(@.product_id == 3003)].value").value(
+                        "300.10"))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].name").value("Gail Bradtke"))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders.size()").value(1))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].total").value("100.10"))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].date").value("2021-09-28"))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].products.size()").value(1))
-                .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].products[?(@.product_id == 3000)].value").value("100.10"));
+                .andExpect(jsonPath(
+                        "$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].products[?(@.product_id == 3000)].value").value(
+                        "100.10"));
     }
 
     @Test
@@ -154,7 +175,9 @@ class OrderFindTests extends TestBase {
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].total").value("100.10"))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].date").value("2021-09-28"))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].products.size()").value(1))
-                .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].products[?(@.product_id == 3000)].value").value("100.10"));
+                .andExpect(jsonPath(
+                        "$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].products[?(@.product_id == 3000)].value").value(
+                        "100.10"));
     }
 
     @Test
@@ -170,16 +193,25 @@ class OrderFindTests extends TestBase {
                 .andExpect(jsonPath("$[?(@.user_id == 1000)].orders[?(@.order_id == 2002)].total").value("550.60"))
                 .andExpect(jsonPath("$[?(@.user_id == 1000)].orders[?(@.order_id == 2002)].date").value("2021-09-23"))
                 .andExpect(jsonPath("$[?(@.user_id == 1000)].orders[?(@.order_id == 2002)].products.size()").value(3))
-                .andExpect(jsonPath("$[?(@.user_id == 1000)].orders[?(@.order_id == 2002)].products[?(@.product_id == 3000)].value").value("100.10"))
-                .andExpect(jsonPath("$[?(@.user_id == 1000)].orders[?(@.order_id == 2002)].products[?(@.product_id == 3001)].value").value("150.40"))
-                .andExpect(jsonPath("$[?(@.user_id == 1000)].orders[?(@.order_id == 2002)].products[?(@.product_id == 3003)].value").value("300.10"))
+                .andExpect(jsonPath(
+                        "$[?(@.user_id == 1000)].orders[?(@.order_id == 2002)].products[?(@.product_id == 3000)].value").value(
+                        "100.10"))
+                .andExpect(jsonPath(
+                        "$[?(@.user_id == 1000)].orders[?(@.order_id == 2002)].products[?(@.product_id == 3001)].value").value(
+                        "150.40"))
+                .andExpect(jsonPath(
+                        "$[?(@.user_id == 1000)].orders[?(@.order_id == 2002)].products[?(@.product_id == 3003)].value").value(
+                        "300.10"))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].name").value("Gail Bradtke"))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders.size()").value(1))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].total").value("100.10"))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].date").value("2021-09-28"))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].products.size()").value(1))
-                .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].products[?(@.product_id == 3000)].value").value("100.10"));
+                .andExpect(jsonPath(
+                        "$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].products[?(@.product_id == 3000)].value").value(
+                        "100.10"));
     }
+
     @Test
     void consultaPorIntervaloCom2ResultadoDoMesmoUsuario() throws Exception {
         mockMvc.perform(get("/orders")
@@ -193,12 +225,18 @@ class OrderFindTests extends TestBase {
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].total").value("100.10"))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].date").value("2021-09-28"))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].products.size()").value(1))
-                .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].products[?(@.product_id == 3000)].value").value("100.10"))
+                .andExpect(jsonPath(
+                        "$[?(@.user_id == 1001)].orders[?(@.order_id == 2000)].products[?(@.product_id == 3000)].value").value(
+                        "100.10"))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2001)].total").value("250.50"))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2001)].date").value("2021-09-29"))
                 .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2001)].products.size()").value(2))
-                .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2001)].products[?(@.product_id == 3000)].value").value("100.10"))
-                .andExpect(jsonPath("$[?(@.user_id == 1001)].orders[?(@.order_id == 2001)].products[?(@.product_id == 3001)].value").value("150.40"));
+                .andExpect(jsonPath(
+                        "$[?(@.user_id == 1001)].orders[?(@.order_id == 2001)].products[?(@.product_id == 3000)].value").value(
+                        "100.10"))
+                .andExpect(jsonPath(
+                        "$[?(@.user_id == 1001)].orders[?(@.order_id == 2001)].products[?(@.product_id == 3001)].value").value(
+                        "150.40"));
     }
 
 }

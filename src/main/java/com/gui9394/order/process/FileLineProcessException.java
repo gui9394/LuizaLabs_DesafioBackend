@@ -5,11 +5,11 @@ import lombok.Getter;
 @Getter
 public class FileLineProcessException extends Exception {
 
-    private final FileLine fileLine;
-    private final FileLineProcessResult result;
+    private final transient FileLine fileLine;
+    private final transient FileLineProcessResult result;
 
     public FileLineProcessException(FileLine fileLine, FileLineProcessResult result) {
-        super("Error on process");
+        super("Erro ao processar a linha do arquivo");
         this.fileLine = fileLine;
         this.result = result;
     }

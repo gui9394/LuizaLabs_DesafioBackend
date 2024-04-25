@@ -1,44 +1,80 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.2.5'
-	id 'io.spring.dependency-management' version '1.1.4'
+    id 'java'
+    id 'org.springframework.boot' version '3.2.5'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'jacoco'
 }
 
 group = 'com.gui9394'
 version = '1.0.0'
 
 java {
-	sourceCompatibility = '21'
+    sourceCompatibility = '21'
 }
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-batch'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'io.micrometer:micrometer-tracing-bridge-brave'
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
-	compileOnly 'org.projectlombok:lombok'
-//	runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'org.postgresql:postgresql'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.batch:spring-batch-test'
-	testImplementation 'org.testcontainers:postgresql'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.testcontainers:postgresql'
 }
 
 tasks.named('test') {
-	systemProperties = [ 'spring.profiles.active': 'test' ]
-	useJUnitPlatform()
+    systemProperties = ['spring.profiles.active': 'test']
+    useJUnitPlatform()
+}
+
+test.finalizedBy jacocoTestReport
+check.dependsOn jacocoTestCoverageVerification
+
+jacocoTestCoverageVerification {
+    dependsOn test
+    violationRules {
+        failOnViolation = true
+        rule {
+            limit {
+                counter = 'INSTRUCTION'
+                minimum = 0.8
+            }
+        }
+        rule {
+            limit {
+                counter = 'LINE'
+                minimum = 0.9
+            }
+        }
+        rule {
+            limit {
+                counter = 'CLASS'
+                minimum = 0.9
+            }
+        }
+    }
+}
+
+jacocoTestReport {
+    dependsOn jacocoTestCoverageVerification
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacoco_html')
+    }
 }
