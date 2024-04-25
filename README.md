@@ -60,18 +60,27 @@ Você pode passar a data de inicio do intervalo no parâmetro **start_date** e a
 
 O intervalo máximo pode ser configurado pela variável ORDER_CONSULT_FIND_BY_DATE_INTERVAL_MAX em dias.
 
+## Testes automatizados
+
+Para executar os testes da aplicação é necessário ter o Java 21 e Docker configurados.
+
+Abra um terminal e navegue ao até o diretório onde baixou o projeto e execute o comando a seguir e aguarde a finalização.
+
+```shell
+./gradlew clean test
+```
+
 ## Execução
 
-Para executar a aplicação e necessário ter o Docker configurado.
+Para compilar e executar a aplicação é necessário ter o Docker configurado.
 
 Abra um terminal e navegue ao até o diretório onde baixou o projeto e execute o comando a seguir.
 
 ```shell
-./gradlew build
 docker compose up -d
 ```
 
-A API vai rodar na porta 8080 você pode acessar o [Swagger](http://localhost:8080/swagger-ui/index.html).
+Logo após a finalização do comando a API vai rodar na porta 8080 você pode acessar o [Swagger](http://localhost:8080/swagger-ui/index.html).
 
 ## Paulo Silva
 
